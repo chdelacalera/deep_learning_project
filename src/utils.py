@@ -13,6 +13,7 @@ import seaborn as sns
 import random
 import wandb
 from src.cnn import *
+import time
 
 
 def train_one_epoch(model, train_loader, criterion, optimizer, device):
@@ -204,40 +205,62 @@ def train_single_model(model_name, model_config, common_config, num_classes, dev
 
     # 3) Training with stopping and logging
     history = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": []}
+    best_val_acc = 0.0  # Track best validation accuracy instead of loss
     best_val_loss = float('inf')
     epochs_no_improve = 0
+    
+    print(f"\n{'Epoch':^7} | {'Train Loss':^12} | {'Train Acc':^10} | {'Val Loss':^12} | {'Val Acc':^10} | {'LR':^10}")
+    print("-"*65)
 
+    start_time = time.time()
     for epoch in range(common_config["epochs"]):
+        epoch_start = time.time()
+        
+        # Training phase
         train_loss, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
+        
+        # Validation phase
         val_loss, val_acc, val_preds, val_labels = validate(model, valid_loader, criterion, device)
 
+        # Print progress
+        print(f"{epoch+1:^7} | {train_loss:^12.4f} | {train_acc:^10.4f} | {val_loss:^12.4f} | {val_acc:^10.4f} | {optimizer.param_groups[0]['lr']:^10.6f}")
+        
         # Log metrics to wandb
         wandb.log({
             "epoch": epoch + 1,
             "train_loss": train_loss,
             "train_acc": train_acc,
             "val_loss": val_loss,
-            "val_acc": val_acc
+            "val_acc": val_acc,
+            "lr": optimizer.param_groups[0]['lr']
         })
 
+        # Update history
         history["train_loss"].append(train_loss)
         history["train_acc"].append(train_acc)
         history["val_loss"].append(val_loss)
         history["val_acc"].append(val_acc)
 
-        # Manual early stopping 
-        if val_loss < best_val_loss:
-            best_val_loss = val_loss
+        # Early stopping based on validation accuracy
+        if val_acc > best_val_acc:
+            best_val_acc = val_acc
+            best_epoch = epoch
             epochs_no_improve = 0
-
-            torch.save(model.state_dict(), f"best_{model_name}.pt")
+            # Save the best model by accuracy
+            torch.save(model.state_dict(), f"best_acc_{model_name}.pt")
+            print(f"  ✓ New best accuracy: {best_val_acc:.4f}")
         else:
             epochs_no_improve += 1
             if epochs_no_improve >= common_config["patience"]:
-                print("Early stopping triggered.")
+                print(f"\nEarly stopping triggered after {epoch+1} epochs. Best accuracy: {best_val_acc:.4f} at epoch {best_epoch+1}")
                 break
+    
+    # Training complete
+    training_time = time.time() - start_time
+    print(f"\nTraining completed in {training_time:.2f} seconds ({training_time/60:.2f} minutes)")
+    print(f"Best validation accuracy: {best_val_acc:.4f} at epoch {best_epoch+1}")
 
-    # 4) Log 
+    # 4) Log to wandb
     fig_cm = plot_confusion_matrix(val_labels, val_preds, class_names)
     wandb.log({"confusion_matrix": wandb.Image(fig_cm)})
 
@@ -250,17 +273,19 @@ def train_single_model(model_name, model_config, common_config, num_classes, dev
     artifact = wandb.Artifact(f"{model_name}-model", type="model")
     artifact.add_file(model_filename)
     run.log_artifact(artifact)
-
+    
+    # Load the best model (by accuracy) for the final result
+    model.load_state_dict(torch.load(f"best_acc_{model_name}.pt"))
+    
     run.finish()
 
-    val_acc = history["val_acc"][-1]
-    training_time = None  
     return {
         "model": model,
         "history": history,
         "val_preds": val_preds,
         "val_labels": val_labels,
-        "val_acc": val_acc,
+        "val_acc": best_val_acc,
+        "best_epoch": best_epoch,
         "training_time": training_time,
         "config": {**model_config, **common_config}
     }
