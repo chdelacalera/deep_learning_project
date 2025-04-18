@@ -164,6 +164,106 @@ def train_model_with_early_stopping(model, train_loader, valid_loader, criterion
         
     return model, history
 
+def train_single_model(model_name, model_config, common_config):
+    """Train a single model with the specified configuration and log to W&B."""
+    print(f"\n{'-'*50}")
+    print(f"Training {model_name}")
+    print(f"{'-'*50}\n")
+    
+    # 1) Start run of W&B
+    run = wandb.init(
+        project="deep-lab-models",
+        name=f"run-{model_name}",
+        group="multi-model-transfer-learning",
+        config={**common_config, **model_config}
+    )
+
+    # 2) Obtain and prepare the model
+    base_model = get_pretrained_model(model_config["base_model"])
+    print(f"Using {model_config['base_model']} as base model")
+    model = CNN(base_model, num_classes, model_config["unfreeze_layers"]).to(device)
+
+    # Show trainable parameters
+    print("\nTrainable layers:")
+    trainable_params = 0
+    for name, param in model.named_parameters():
+        if param.requires_grad:
+            print(f"  {name}")
+            trainable_params += param.numel()
+    print(f"\nTotal trainable parameters: {trainable_params:,}")
+
+    # Optimizer
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(
+        filter(lambda p: p.requires_grad, model.parameters()),
+        lr=model_config["learning_rate"],
+        weight_decay=model_config["weight_decay"]
+    )
+
+    # 3) Training with stopping and logging
+    history = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": []}
+    best_val_loss = float('inf')
+    epochs_no_improve = 0
+
+    for epoch in range(common_config["epochs"]):
+        train_loss, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
+        val_loss, val_acc, val_preds, val_labels = validate(model, valid_loader, criterion, device)
+
+        # Log metrics to wandb
+        wandb.log({
+            "epoch": epoch + 1,
+            "train_loss": train_loss,
+            "train_acc": train_acc,
+            "val_loss": val_loss,
+            "val_acc": val_acc
+        })
+
+        history["train_loss"].append(train_loss)
+        history["train_acc"].append(train_acc)
+        history["val_loss"].append(val_loss)
+        history["val_acc"].append(val_acc)
+
+        # Manual early stopping 
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            epochs_no_improve = 0
+
+            torch.save(model.state_dict(), f"best_{model_name}.pt")
+        else:
+            epochs_no_improve += 1
+            if epochs_no_improve >= common_config["patience"]:
+                print("Early stopping triggered.")
+                break
+
+    # 4) Log 
+    fig_cm = plot_confusion_matrix(val_labels, val_preds, class_names)
+    wandb.log({"confusion_matrix": wandb.Image(fig_cm)})
+
+    sample_fig = predict_sample_images(model, valid_loader, device, class_names, num_samples=5)
+    wandb.log({"sample_predictions": wandb.Image(sample_fig)})
+
+    # 5) Save final model
+    model_filename = f"{model_name.lower().replace('-', '_')}_finetune.pt"
+    torch.save(model.state_dict(), model_filename)
+    artifact = wandb.Artifact(f"{model_name}-model", type="model")
+    artifact.add_file(model_filename)
+    run.log_artifact(artifact)
+
+    run.finish()
+
+    val_acc = history["val_acc"][-1]
+    training_time = None  
+    return {
+        "model": model,
+        "history": history,
+        "val_preds": val_preds,
+        "val_labels": val_labels,
+        "val_acc": val_acc,
+        "training_time": training_time,
+        "config": {**model_config, **common_config}
+    }
+
+
 
 def plot_training_history(history):
     """Plot the training and validation loss and accuracy.
