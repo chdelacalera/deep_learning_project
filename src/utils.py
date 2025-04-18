@@ -11,6 +11,8 @@ from tempfile import TemporaryDirectory
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import random
+import wandb
+from src.cnn import *
 
 
 def train_one_epoch(model, train_loader, criterion, optimizer, device):
@@ -164,7 +166,7 @@ def train_model_with_early_stopping(model, train_loader, valid_loader, criterion
         
     return model, history
 
-def train_single_model(model_name, model_config, common_config):
+def train_single_model(model_name, model_config, common_config, num_classes, device, train_loader, valid_loader, class_names):
     """Train a single model with the specified configuration and log to W&B."""
     print(f"\n{'-'*50}")
     print(f"Training {model_name}")
@@ -378,5 +380,23 @@ def get_pretrained_model(model_name):
         return torchvision.models.resnet101(weights='DEFAULT')
     elif model_name == 'resnet152':
         return torchvision.models.resnet152(weights='DEFAULT')
+    elif model_name == 'efficientnet_b0':
+        return torchvision.models.efficientnet_b0(weights='DEFAULT')
+    elif model_name == 'efficientnet_b1':
+        return torchvision.models.efficientnet_b1(weights='DEFAULT')
+    elif model_name == 'efficientnet_b2':
+        return torchvision.models.efficientnet_b2(weights='DEFAULT')
+    elif model_name == 'mobilenet_v3_small':
+        return torchvision.models.mobilenet_v3_small(weights='DEFAULT')
+    elif model_name == 'mobilenet_v3_large':
+        return torchvision.models.mobilenet_v3_large(weights='DEFAULT')
+    elif model_name == 'vgg16':
+        return torchvision.models.vgg16(weights='DEFAULT')
+    elif model_name == 'vgg19':
+        return torchvision.models.vgg19(weights='DEFAULT')
+    elif model_name == 'densenet121':
+        return torchvision.models.densenet121(weights='DEFAULT')
+    elif model_name == 'inception_v3':
+        return torchvision.models.inception_v3(weights='DEFAULT')
     else:
         raise ValueError(f"Unsupported model: {model_name}") 
