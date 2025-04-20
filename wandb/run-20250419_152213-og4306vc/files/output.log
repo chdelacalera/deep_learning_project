@@ -1,0 +1,30 @@
+Using efficientnet_b0 as base model
+
+Trainable layers:
+  fc.0.weight
+  fc.0.bias
+  fc.3.weight
+  fc.3.bias
+
+Total trainable parameters: 1,327,119
+
+ Epoch  |  Train Loss  | Train Acc  |   Val Loss   |  Val Acc   |     LR
+-----------------------------------------------------------------
+   1    |    1.3885    |   0.5558   |    0.6502    |   0.7893   |  0.001000
+  ✓ New best accuracy: 0.7893
+   2    |    0.9183    |   0.6938   |    0.5073    |   0.8380   |  0.001000
+  ✓ New best accuracy: 0.8380
+   3    |    0.8307    |   0.7196   |    0.5230    |   0.8153   |  0.001000
+   4    |    0.7857    |   0.7360   |    0.5353    |   0.8187   |  0.001000
+   5    |    0.7500    |   0.7434   |    0.4551    |   0.8420   |  0.001000
+  ✓ New best accuracy: 0.8420
+   6    |    0.7324    |   0.7568   |    0.4937    |   0.8240   |  0.001000
+   7    |    0.7186    |   0.7611   |    0.4669    |   0.8380   |  0.001000
+   8    |    0.7095    |   0.7564   |    0.4504    |   0.8420   |  0.001000
+   9    |    0.7116    |   0.7611   |    0.4547    |   0.8373   |  0.001000
+  10    |    0.6730    |   0.7698   |    0.4929    |   0.8300   |  0.001000
+
+Early stopping triggered after 10 epochs. Best accuracy: 0.8420 at epoch 5
+
+Training completed in 367.77 seconds (6.13 minutes)
+Best validation accuracy: 0.8420 at epoch 5

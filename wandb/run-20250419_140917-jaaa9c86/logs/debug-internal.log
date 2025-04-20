@@ -1,0 +1,16 @@
+{"time":"2025-04-19T14:09:17.5476871+02:00","level":"INFO","msg":"stream: starting","core version":"0.19.8","symlink path":"C:\\Users\\Usuario\\ML_Proyect_6\\deep\\wandb\\run-20250419_140917-jaaa9c86\\logs\\debug-core.log"}
+{"time":"2025-04-19T14:09:18.5333671+02:00","level":"INFO","msg":"created new stream","id":"jaaa9c86"}
+{"time":"2025-04-19T14:09:18.5333671+02:00","level":"INFO","msg":"stream: started","id":"jaaa9c86"}
+{"time":"2025-04-19T14:09:18.5333671+02:00","level":"INFO","msg":"writer: Do: started","stream_id":"jaaa9c86"}
+{"time":"2025-04-19T14:09:18.5339261+02:00","level":"INFO","msg":"sender: started","stream_id":"jaaa9c86"}
+{"time":"2025-04-19T14:09:18.5339261+02:00","level":"INFO","msg":"handler: started","stream_id":"jaaa9c86"}
+{"time":"2025-04-19T14:09:18.7616823+02:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-19T14:24:18.7080828+02:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-04-19T14:24:18.710657+02:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-04-19T14:24:19.725111+02:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading artifact ResNet50-HighLR-model","runtime_seconds":1.3446939,"subtasks":[{"desc":"resnet50_highlr_finetune.pt","runtime_seconds":0.7716038,"progress":"1.8MB/98.1MB"}]}],"total_operations":1}}
+{"time":"2025-04-19T14:24:23.6977208+02:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-19T14:24:23.8971282+02:00","level":"INFO","msg":"stream: closing","id":"jaaa9c86"}
+{"time":"2025-04-19T14:24:23.8971282+02:00","level":"INFO","msg":"handler: closed","stream_id":"jaaa9c86"}
+{"time":"2025-04-19T14:24:23.8971282+02:00","level":"INFO","msg":"writer: Close: closed","stream_id":"jaaa9c86"}
+{"time":"2025-04-19T14:24:23.8971282+02:00","level":"INFO","msg":"sender: closed","stream_id":"jaaa9c86"}
+{"time":"2025-04-19T14:24:23.8971282+02:00","level":"INFO","msg":"stream: closed","id":"jaaa9c86"}

@@ -1,0 +1,73 @@
+Using resnet101 as base model
+
+Trainable layers:
+  base_model.layer4.0.conv1.weight
+  base_model.layer4.0.bn1.weight
+  base_model.layer4.0.bn1.bias
+  base_model.layer4.0.conv2.weight
+  base_model.layer4.0.bn2.weight
+  base_model.layer4.0.bn2.bias
+  base_model.layer4.0.conv3.weight
+  base_model.layer4.0.bn3.weight
+  base_model.layer4.0.bn3.bias
+  base_model.layer4.0.downsample.0.weight
+  base_model.layer4.0.downsample.1.weight
+  base_model.layer4.0.downsample.1.bias
+  base_model.layer4.1.conv1.weight
+  base_model.layer4.1.bn1.weight
+  base_model.layer4.1.bn1.bias
+  base_model.layer4.1.conv2.weight
+  base_model.layer4.1.bn2.weight
+  base_model.layer4.1.bn2.bias
+  base_model.layer4.1.conv3.weight
+  base_model.layer4.1.bn3.weight
+  base_model.layer4.1.bn3.bias
+  base_model.layer4.2.conv1.weight
+  base_model.layer4.2.bn1.weight
+  base_model.layer4.2.bn1.bias
+  base_model.layer4.2.conv2.weight
+  base_model.layer4.2.bn2.weight
+  base_model.layer4.2.bn2.bias
+  base_model.layer4.2.conv3.weight
+  base_model.layer4.2.bn3.weight
+  base_model.layer4.2.bn3.bias
+  fc.0.weight
+  fc.0.bias
+  fc.3.weight
+  fc.3.bias
+
+Total trainable parameters: 17,078,287
+
+ Epoch  |  Train Loss  | Train Acc  |   Val Loss   |  Val Acc   |     LR
+-----------------------------------------------------------------
+   1    |    1.0974    |   0.6566   |    0.3016    |   0.8973   |  0.001000
+  ✓ New best accuracy: 0.8973
+   2    |    0.6450    |   0.7933   |    0.3732    |   0.8713   |  0.001000
+   3    |    0.5356    |   0.8211   |    0.2921    |   0.9093   |  0.001000
+  ✓ New best accuracy: 0.9093
+   4    |    0.4902    |   0.8399   |    0.3138    |   0.8967   |  0.001000
+   5    |    0.4404    |   0.8462   |    0.2846    |   0.9127   |  0.001000
+  ✓ New best accuracy: 0.9127
+   6    |    0.3921    |   0.8754   |    0.3036    |   0.9087   |  0.001000
+   7    |    0.3720    |   0.8720   |    0.3120    |   0.9067   |  0.001000
+   8    |    0.3687    |   0.8750   |    0.2785    |   0.9160   |  0.001000
+  ✓ New best accuracy: 0.9160
+   9    |    0.3448    |   0.8831   |    0.2722    |   0.9193   |  0.001000
+  ✓ New best accuracy: 0.9193
+  10    |    0.3205    |   0.8841   |    0.3264    |   0.9013   |  0.001000
+  11    |    0.2830    |   0.9039   |    0.2785    |   0.9147   |  0.001000
+  12    |    0.3059    |   0.9005   |    0.2323    |   0.9340   |  0.001000
+  ✓ New best accuracy: 0.9340
+  13    |    0.3054    |   0.8998   |    0.2924    |   0.9187   |  0.001000
+  14    |    0.3014    |   0.8985   |    0.2672    |   0.9173   |  0.001000
+  15    |    0.2720    |   0.9062   |    0.2736    |   0.9147   |  0.001000
+  16    |    0.2964    |   0.9022   |    0.2493    |   0.9287   |  0.001000
+  17    |    0.2732    |   0.9122   |    0.2468    |   0.9347   |  0.001000
+  ✓ New best accuracy: 0.9347
+  18    |    0.2755    |   0.9099   |    0.2604    |   0.9347   |  0.001000
+  19    |    0.2464    |   0.9142   |    0.2824    |   0.9213   |  0.001000
+  20    |    0.2532    |   0.9149   |    0.2186    |   0.9407   |  0.001000
+  ✓ New best accuracy: 0.9407
+
+Training completed in 1865.28 seconds (31.09 minutes)
+Best validation accuracy: 0.9407 at epoch 20
