@@ -7,7 +7,7 @@ Team members:
 | Margarita Vera Cabrer          | 202406918@alu.comillas.edu       |
 | Elena Martínez Torrijos        | 202407060@alu.comillas.edu          |
 | Claudia Hermández de la Calera | chdelacalera@alu.comillas.edu       |
-| Javier Gallergo Fernández      | 201905882@alu.icai.comillas.edu     |
+| Javier Gallergo Fernández      | 201905882@alu.comillas.edu     |
 
 
 This project focuses on developing and evaluating an image classification system using various deep learning models. The goal is to classify images into 15 different categories, such as different types of rooms (e.g., Bedroom, Kitchen, Office) and urban environments (e.g., Forest, Highway, Mountain), using pre-trained models like ResNet and EfficientNet. The models are fine-tuned to optimize their performance on a specific dataset.
@@ -16,11 +16,11 @@ This project focuses on developing and evaluating an image classification system
 
 ```
 .
+├── models/                                  # Saved model weights
 ├── src/                                     # Source code
 |   ├── app_streamlit.py                     # Streamlit App
 │   ├── cnn.py                               # CNN model architecture definition
 │   └── utils.py                             # Useful load functions
-├── models/                                  # Saved model weights
 ├── wandb/                                   # Weights & Biases data for experiment tracking
 ├── Multi_Model_Transfer_Learning.ipynb      # Notebook for training and comparing multiple models using transfer learning
 └── README.md                                # This file
