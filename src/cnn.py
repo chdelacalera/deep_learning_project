@@ -36,16 +36,30 @@ class CNN(nn.Module):
                 for param in layer.parameters():
                     param.requires_grad = True
 
+        # Determine the input features based on model architecture
+        if hasattr(self.base_model, 'fc'):
+            # ResNet, DenseNet, etc.
+            in_features = self.base_model.fc.in_features
+            self.base_model.fc = nn.Identity()
+        elif hasattr(self.base_model, 'classifier'):
+            # MobileNetV3, EfficientNet
+            if isinstance(self.base_model.classifier, nn.Sequential):
+                # For EfficientNet
+                in_features = self.base_model.classifier[1].in_features
+            else:
+                # For MobileNetV3
+                in_features = self.base_model.classifier[-1].in_features
+            self.base_model.classifier = nn.Identity()
+        else:
+            raise ValueError(f"Unsupported base model architecture: {type(self.base_model).__name__}")
+
         # Add a new softmax output layer
         self.fc = nn.Sequential(
-            nn.Linear(self.base_model.fc.in_features, 1024),
+            nn.Linear(in_features, 1024),
             nn.ReLU(),
             nn.Dropout(0.2),
             nn.Linear(1024, num_classes)
         )
-
-        # Replace the last layer of the base model
-        self.base_model.fc = nn.Identity()
 
     def forward(self, x):
         """Forward pass of the model.
