@@ -12,7 +12,7 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import random
 import wandb
-from src.cnn import *
+from cnn import *
 import time
 
 

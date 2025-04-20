@@ -21,7 +21,6 @@ This project focuses on developing and evaluating an image classification system
 |   ├── app_streamlit.py                     # Streamlit App
 │   ├── cnn.py                               # CNN model architecture definition
 │   └── utils.py                             # Useful load functions
-├── 03TransferLearning.ipynb                 
 ├── Multi_Model_Transfer_Learning.ipynb      # Notebook for training and comparing multiple models using transfer learning
 └── README.md                                # This file
 ```
