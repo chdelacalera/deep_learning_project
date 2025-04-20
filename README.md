@@ -4,7 +4,7 @@ Team members:
 
 | Name                           | Email                               |
 | -----------------------        | ----------------------------------- |
-| Margarita Vera Cabrer          | marga.vera@alu.icai.comillas.edu    |
+| Margarita Vera Cabrer          | 202406918@alu.comillas.edu       |
 | Elena Martínez Torrijos        | 202407060@alu.comillas.edu          |
 | Claudia Hermández de la Calera | chdelacalera@alu.comillas.edu       |
 | Javier Gallergo Fernández      | 201905882@alu.icai.comillas.edu     |
@@ -16,11 +16,12 @@ This project focuses on developing and evaluating an image classification system
 
 ```
 .
-├── dataset/                                 # Dataset files, both train and test
 ├── src/                                     # Source code
 |   ├── app_streamlit.py                     # Streamlit App
 │   ├── cnn.py                               # CNN model architecture definition
 │   └── utils.py                             # Useful load functions
+├── models/                                  # Saved model weights
+├── wandb/                                   # Weights & Biases data for experiment tracking
 ├── Multi_Model_Transfer_Learning.ipynb      # Notebook for training and comparing multiple models using transfer learning
 └── README.md                                # This file
 ```
